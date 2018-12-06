@@ -113,8 +113,40 @@ deployedUniswapExchangeTemplate.factoryAddress()
 "0x0000000000000000000000000000000000000000"
 ```
 
-It is important that you understand the concept of the singular Exchange contract "template" vs the potentially numerous instances of the Exchange contract.
+It is important that you understand the concept of the singular Exchange contract "template" vs the potentially numerous instances of the Exchange contract. The following diagram illustrates that our deployedUniswapFactoryContract can see the one and only exchangeTemplate(). It is important to remember that there will only be one Factory and one Exchange "template" per Uniswap application. On the other hand there are of course going to be many many instances of the Exchanges as shown below. Let's go ahead and create one of these Exchange instances and then demonstrate how to call its factoryAddress().
 
 ![Diagram showing contract instance structure](../.gitbook/assets/Screen-Shot-2018-12-06-at-1.00.57-PM.png)
 
+### Creating an Exchange
 
+We are going to call the Factory contract's createExchange function which will produce a new instance of an Exchange and return the newly minted address for the Exchange instance. Note that we are passing in the address to an existing ERC20 token. This is the token contract which will be traded against the network token once the exchange is created. Obviously you will need to have the address of an ERC20 token to perform this function.
+
+Before we run the createExchange function, let's perform a few simple tests to ensure correct execution.
+
+1) assert token != ZERO_ADDRESS
+```javascript
+> deployedYuanTokenInstance.address
+"0x8390513eb94287c14b3c6ef994842cededd91836" //Check ✓
+```
+2) assert self.exchangeTemplate != ZERO_ADDRESS
+```javascript
+> deployedUniswapFactoryContract.exchangeTemplate()
+"0xb2864c1e9d81e733f2cb045e2b2b6595be2cd0ad" //Check ✓
+```
+3) assert self.token_to_exchange[token] == ZERO_ADDRESS
+```javascript
+> deployedUniswapFactoryContract.getExchange(deployedYuanTokenInstance.address)
+"0x0000000000000000000000000000000000000000" //Check ✓
+```
+Running the createExchange function
+
+```javascript
+deployedUniswapFactoryContract.createExchange("0x8390513eb94287c14b3c6ef994842cededd91836", {from:factoryOwner, gas:"50000000"})
+```
+
+We promised a little while back that when an exchange instance (for a specific token) was created we would be able to query its Factory and many other details. Let's go ahead and run some commands to ensure that the Factory, Exchange Template and the new Exchange instance are all wired together as intended.
+
+```javascript
+
+
+```
