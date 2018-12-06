@@ -113,6 +113,9 @@ deployedUniswapExchangeTemplate.factoryAddress()
 "0x0000000000000000000000000000000000000000"
 ```
 
-It is important that you understand the concept of the Exchange contract "template" vs an instance of an Exchange.
+It is important that you understand the concept of the singular Exchange contract "template" vs the potentially numerous instances of the Exchange contract.
+
+![Diagram showing contract instance structure](.gitbook/assets/Screen-Shot-2018-12-06-at-1.00.57-PM.png)
+
 
 
